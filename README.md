@@ -32,7 +32,7 @@ def action(number: Union[Nothing, int]) -> Union[Nothing, int]:
     return (number // 2) + 1
 
 def apply(func: Union[Callable, Nothing], *args:Union[AnyType, Nothing]) -> Union[AnyType, Nothing]:
-    return apply(func(*args))
+    return func(*args)
 
 def functor(string:str) -> Callable:
     if string == "add":
