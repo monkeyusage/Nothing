@@ -45,8 +45,6 @@ def pipeline():
     new_meaning = action(meaning_of_life)
     divider = functor("sub")
     final_result = divider(new_meaning, 3)
-    if final_result is Nothing:
-        return Nothing
     return final_result
 
 if __name__ == "__main__":
