@@ -1,9 +1,17 @@
-from pampy import match, _
-
 class Nothing:
     """A basic Callable NoneType
     Use this object to write generic code pipelines
     Makes your life easier when using the railway paradigm
+    Using Nothing lets you avoid errors like:
+        AttributeError: "NoneType" object has no attribute ...
+        TypeError: "NoneType" object is not callable
+        TypeError: bad operand type for unary ...: "NoneType"
+        TypeError: unsupported operand type(s) for ...: "NoneType" and ...
+        TypeError: type NoneType doesn't define __round__ method
+        TypeError: 'NoneType' object is not subscriptable
+        ...
+    Just define your code pipeline using Nothing when your function hits a problem
+    and let the flow guide your logic towards the failing strategy without crashing
     >>> Nothing()
     >>> Nothing
 
@@ -269,6 +277,17 @@ class Nothing:
         """
         return self
 
+    def __ifloordiv__(self, other):
+        """floor divide right to left
+        >>> 2 // Nothing
+
+        Args:
+            other (Any): Can be Anything
+        Returns:
+            self Nothing: Nothing
+        """
+        return self
+
     def __getattr__(self, attr: str):
         """get attribute of Nothing
         >>> getattr(Nothing, "heok")
@@ -303,10 +322,9 @@ class Nothing:
         Returns:
             Union[Nothing, List[Nothing]]: Can be either Nothing or [Nothing]
         """
-        return match(k,
-            int, self,
-            _, [self]
-        )
+        if isinstance(k, int):
+            return self
+        return [self]
 
     def __iter__(self):
         """Support iteration
@@ -328,6 +346,12 @@ class Nothing:
             other (Any): can be Anything
         Returns:
             self Nothing: Nothing
+        
+        Warning: does not override the and operand but the &
+        >>> Nothing & 0
+        >>> Nothing
+        >>> 1 and Nothing
+        >>> Nothing
         """
         return self
 
@@ -337,6 +361,27 @@ class Nothing:
             other (Any): can be Anything
         Returns:
             self Nothing: Nothing
+
+        Warning: does not override the and operand but the &
+        >>> Nothing & 0
+        >>> Nothing
+        >>> 1 and Nothing
+        >>> Nothing
+        """
+        return self
+
+    def __iand__(self, other):
+        """Boolean operation
+        Args:
+            other (Any): can be Anything
+        Returns:
+            self Nothing: Nothing
+
+        Warning: does not override the and operand but the &
+        >>> Nothing & 0
+        >>> Nothing
+        >>> 1 and Nothing
+        >>> Nothing
         """
         return self
 
@@ -346,6 +391,87 @@ class Nothing:
             other (Any): can be Anything
         Returns:
             self Nothing: Nothing
+
+        Warning: does not override the or operand but the &
+        >>> Nothing | 0
+        >>> Nothing
+        >>> 1 | Nothing
+        >>> Nothing
+        """
+        return self
+
+    def __ror__(self, other):
+        """Boolean operation
+        Args:
+            other (Any): can be Anything
+        Returns:
+            self Nothing: Nothing
+
+        Warning: does not override the or operand but the &
+        >>> Nothing | 0
+        >>> Nothing
+        >>> 1 | Nothing
+        >>> Nothing
+        """
+        return self
+
+    def __ior__(self, other):
+        """Boolean operation
+        Args:
+            other (Any): can be Anything
+        Returns:
+            self Nothing: Nothing
+
+        Warning: does not override the or operand but the &
+        >>> Nothing | 0
+        >>> Nothing
+        >>> 1 | Nothing
+        >>> Nothing
+        """
+        return self
+
+    def __xor__(self, other):
+        """Boolean operation
+        Args:
+            other (Any): can be Anything
+        Returns:
+            self Nothing: Nothing
+
+        Warning: does not override the or operand but the &
+        >>> Nothing | 0
+        >>> Nothing
+        >>> 1 | Nothing
+        >>> Nothing
+        """
+        return self
+
+    def __rxor__(self, other):
+        """Boolean operation
+        Args:
+            other (Any): can be Anything
+        Returns:
+            self Nothing: Nothing
+
+        Warning: does not override the or operand but the &
+        >>> Nothing | 0
+        >>> Nothing
+        >>> 1 | Nothing
+        >>> Nothing
+        """
+        return self
+
+    def __ixor__(self, other):
+        """Boolean operation
+        Args:
+            other (Any): can be Anything
+        Returns:
+            self Nothing: Nothing
+
+        Warning: does not override the or operand but the &
+        >>> Nothing | 0
+        >>> Nothing
+        >>> 1 | Nothing
+        >>> Nothing
         """
         return self
 
@@ -392,7 +518,7 @@ class Nothing:
         Returns:
             bool: can be either True or False
         """
-        if isinstance(other, Nothing):
+        if isinstance(other, type(self)):
             return True
         return False
     
@@ -401,4 +527,4 @@ class Nothing:
         Returns:
             int: returns in hash of Nothing object
         """
-        return hash(Nothing)
+        return hash("Nothing")
