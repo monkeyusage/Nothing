@@ -19,7 +19,7 @@ Using Nothing lets you avoid errors like:
 Just define your code pipeline using Nothing when your function hits a problem and let the flow guide your logic towards the failing strategy without crashing
 
 ```python
-import Nothing
+from nothing import Nothing
 from random import choice
 from typing import *
 
