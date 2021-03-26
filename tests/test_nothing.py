@@ -1,6 +1,4 @@
-from main import Nothing
-Nothing = Nothing()
-from random import randint
+from nothing import Nothing
 from pytest import raises
 
 def test_call():
@@ -42,7 +40,7 @@ def test_iter():
     for idx, data in enumerate(Nothing):
         assert idx == 0 and data == Nothing
     assert Nothing[0] == Nothing
-    assert Nothing[-9999:9999] == Nothing
+    assert Nothing[-9999:9999] == [Nothing]
 
 def test_len():
     assert len(Nothing) == 1
@@ -56,7 +54,7 @@ def test_equalities():
 
 def test_bools():
     assert Nothing and Nothing == Nothing
-    assert Nothing and 1 == Nothing
+    assert Nothing & 1 == Nothing
     assert Nothing or Nothing == Nothing
     assert Nothing or 1 == Nothing
 
